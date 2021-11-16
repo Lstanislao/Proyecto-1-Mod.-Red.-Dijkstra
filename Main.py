@@ -68,7 +68,7 @@ if __name__ == '__main__':
         # esto saca si hay alguna ruta en comun
         commonRoute = commonPath(javier['route'], andreina['route'])
         # esto bloquea la ruta que tomo javier para que andreina no la tome
-        if(javier['minutes'] < andreina['minutes']):
+        if(javier['minutes'] > andreina['minutes']):
             g.updateAdjMatrix(commonRoute)
             # si se hace mas de un iteracion y el ultimo fue el grafo de javier
             if(last == 'javier'):
