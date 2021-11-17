@@ -17,8 +17,8 @@ class Graph:
         # Se rellena la distancia de las verticales
         for i in range(0, 30):
             # entra aqui en las verticales que correponden a carrera 14,13,12
-            if(i == 1 or i == 2 or i == 3 or i == 7 or i == 8 or i == 9 or i == 13 or i == 14 or i == 15 or i == 19
-               or i == 20 or i == 21 or i == 25 or i == 26 or i == 27):
+            if(i == 2 or i == 3 or i == 4 or i == 8 or i == 9 or i == 10 or i == 14 or i == 15 or i == 16
+                    or i == 20 or i == 21 or i == 22 or i == 26 or i == 27 or i == 28):
                 self.adjMatrix[i][i+6] = 7
             # en el resto la distancia es 5
             else:
@@ -123,13 +123,13 @@ class Graph:
                                     self.adjMatrix[i][j]
 
                                 infoMatrix[j][2] = prev
-
         return self.getRoute(infoMatrix, start, end)
 
     def getRoute(self, infoMatrix, start, destiny):
 
         output = int(destiny)
         aux = destiny
+        time = []
 
         while(aux != start):
             for i in range(36):
@@ -143,21 +143,21 @@ class Graph:
 
                     # Para quitarle los decimales
                     newPoint = int(aux)
-
+                    time.insert(0, infoMatrix[i][1])
                     # Se agrega el nodo actual en la cadena que se encarga de reconstruir el camino final
                     output = str(newPoint) + "," + str(output)
                     if(aux == start):
                         break
+        time.insert(0, 0)
 
         return ({
             'route': output,
-            'minutes': minutes
+            'minutes': minutes,
+            'time': time
         })
 
     # quita una ruta de la matriz de ady
-
-    def updateAdjMatrix(self, route):
-        arrayRoute = route.split(",")
+    def updateAdjMatrix(self, arrayRoute):
 
         coors = []
 
@@ -196,6 +196,11 @@ class Graph:
                 coorY = 30
             self.adjMatrix[coorX+int(x[1])][(coorY+int(y[1]))] = 999
 
+    def updateMatrixTo(self, num):
+        for i in range(0, 36):
+            for j in range(0, 36):
+                if(self.adjMatrix[i][j] != 999):
+                    self.adjMatrix[i][j] += num
     # Borrar al final
 
     def printGraph(self):
