@@ -1,33 +1,41 @@
 import numpy as np
 
-
 class Graph:
+    # Como el grafo tiene 36 nodos, se crea la matriz de adyacencia 36x36 con 0 en todas sus posiciones
     adjMatrix = np.zeros((36, 36))
 
     def __init__(self):
+        ''' Se empieza la inicializacion de la matriz de adyacencia, que tendra el tiempo base que tarda llegar de un
+        nodo a otro, dejando en 0 el tiempo en llegar de un nodo a si mismo y asignando un numero positivo muy grande (999) 
+        en las otras posiciones, pues muchos de los nodos no tendran una arista en comun'''
         for i in range(0, 36):
             for j in range(0, 36):
-                self.adjMatrix[i][j] = 999
+                if(i != j):
+                    self.adjMatrix[i][j] = 999
         self.initMatrix()
     # -----------------------------------------------------------
 
     def initMatrix(self):
-        '''La matriz es simetrica, se rellana el cuadrante de abajo primero proque es mas facil de leer esas coordenadas en
-         relacion a la cuadricula, y luego se rellena el cuadrante de arriba que simetrico al de abajo'''
-        # Se rellena la distancia de las verticales
+        '''Se continua la inicializacion de la matriz de adyacencia. Como la matriz es simetrica, se rellena el cuadrante
+        de abajo primero porque sus coordenadas son mas faciles de leer en relacion a la cuadricula y luego con el se 
+        rellena el cuadrante superior'''
+
+        # Se rellena el tiempo para las carreras
         for i in range(0, 30):
-            # entra aqui en las verticales que correponden a carrera 14,13,12
+            # Se asigna el tiempo de las aristas que forman las carreras 12, 13 y 14
             if(i == 2 or i == 3 or i == 4 or i == 8 or i == 9 or i == 10 or i == 14 or i == 15 or i == 16
                     or i == 20 or i == 21 or i == 22 or i == 26 or i == 27 or i == 28):
                 self.adjMatrix[i][i+6] = 7
-            # en el resto la distancia es 5
+            # Y de las aristas que forman las otras carreras
             else:
                 self.adjMatrix[i][i+6] = 5
 
-        # Se rellena la distancia de las horizontales
+        # Se rellena el tiempo para las calles
         for i in range(0, 35):
+            # Se asigna el tiempo de las aristas que forman la calle 51
             if(i in range(6, 11)):
                 self.adjMatrix[i][i+1] = 10
+            # Y de las aristas que forman las otras calles    
             elif(i != 5 and i != 11 and i != 17 and i != 23 and i != 29):
                 self.adjMatrix[i][i+1] = 5
 
@@ -39,10 +47,13 @@ class Graph:
     # -----------------------------------------------------------
 
     def initInfoMatrix(self, initialNode):
-        # esto crea la matriz de informacion Nodo | dist min | Pre
+        ''' Se crea la matriz de informacion Nodo | Tiempo min desde origen | Predecesor
+        que sera necesaria para aplicar el algoritmo Dijkstra'''
+        
         infoMatrix = np.zeros((36, 3))
         index = 0
-        # se crean los nodos
+
+        # Se asigna el nombre de los nodos
         for i in range(36):
             if (index == 6):
                 index = 0
@@ -67,35 +78,39 @@ class Graph:
 
             index += 1
 
-        # se incializa en 0
+        # Se inicializa el tiempo minimo en llegar del nodo de inicio a todos los otros en un numero muy grande (999)
         for i in range(36):
             infoMatrix[i][1] = 999
 
-        # se coloca el nodo donde se inicia  en distancia 0
+        # Se coloca en 0 el tiempo en llegar del nodo inicio a si mismo
         infoMatrix[initialNode][1] = 0
 
         return infoMatrix
 
     def dijkstra(self, start, end):
-        # Javier
+        ''' Se aplica el algoritmo de Dijkstra para buscar el camino de costo minimo entre dos nodos'''
+
+        # Se toma como nodo de inicio en el que vive Javier
         if(start == 5414.0):
             infoMatrix = self.initInfoMatrix(28)
+        # O se toma como nodo de inicio en el que vive Andreina
         else:
-            # andreina
             infoMatrix = self.initInfoMatrix(15)
 
-        notVisited = []
         prev = 0
+
+        # Se crea el array que contendra los nodos que aun no hayan sido visitados
+        notVisited = []
 
         for i in range(36):
             notVisited.append(infoMatrix[i][0])
-
+        
+        # Mientras hayan nodos no visitados
         while(len(notVisited) != 0):
 
             minDistance = 999
 
-            # Se examinan todos los adyacentes no visitados al nodo actual
-            # se determina cual es el nodo mas cercano al de inicio que sera el siguiente a viistar
+            # Se busca el nodo no visitado mas cercano al nodo de inicio
             for i in range(36):
 
                 if(infoMatrix[i][0] in notVisited):
@@ -104,28 +119,31 @@ class Graph:
                         minDistance = infoMatrix[i][1]
                         node = infoMatrix[i][0]
 
-            # Con el nodo mas cercano se procede a visitarlo
+            # Se procede a visitar el nodo hallado mas cercano al inicio
             for i in range(36):
-                # se busca el nodo
+                # Se busca el nodo
                 if(infoMatrix[i][0] == node):
-                    # se visita, por lo tanto se saca de la matriz de no visitadis
+                    # Se visita y por lo tanto se saca de la matriz de no visitados
                     notVisited.remove(node)
-                    # se coloca su predecesor
+                    # Se guarda su predecesor
                     prev = node
-                    # se examinan sus adyacentes
+
+                    # Se examinan sus nodos adyacentes no visitados
                     for j in range(36):
-                        if(self.adjMatrix[i][j] != 999):
-                            # se actualiza el valor si es menor al que se encuentra en la tabla
-
+                        if(infoMatrix[j][0] in notVisited and self.adjMatrix[i][j] != 999):
+                            
+                            # Si suma de tiempo del nodo inicio al nodo actual y tiempo del nodo actual al nodo adyacente 
+                            # es menor que tiempo de nodo inicio a nodo adyacente en la tabla
                             if(infoMatrix[j][1] > self.adjMatrix[i][j] + minDistance):
-
-                                infoMatrix[j][1] = minDistance + \
-                                    self.adjMatrix[i][j]
+                                # Se actualiza el tiempo y predecesor en la tabla
+                                infoMatrix[j][1] = minDistance + self.adjMatrix[i][j]
 
                                 infoMatrix[j][2] = prev
+
         return self.getRoute(infoMatrix, start, end)
 
     def getRoute(self, infoMatrix, start, destiny):
+        '''Se reconstruye el camino de costo minimo de un nodo inicio a un nodo destino'''
 
         output = int(destiny)
         aux = destiny
@@ -133,7 +151,7 @@ class Graph:
 
         while(aux != start):
             for i in range(36):
-                # Se busca en la matriz de informacion de Javier el nodo actual
+                # Se busca en la matriz de informacion el nodo actual
                 if(infoMatrix[i][0] == aux):
 
                     if(destiny == infoMatrix[i][0]):
@@ -144,10 +162,14 @@ class Graph:
                     # Para quitarle los decimales
                     newPoint = int(aux)
                     time.insert(0, infoMatrix[i][1])
-                    # Se agrega el nodo actual en la cadena que se encarga de reconstruir el camino final
-                    output = str(newPoint) + "," + str(output)
+
+                    # Se agrega el nodo actual a la cadena que se encarga de reconstruir el camino final
+                    output = str(newPoint) + ", " + str(output)
+
+                    # Si se llega al nodo inicio, el camino esta completo
                     if(aux == start):
                         break
+
         time.insert(0, 0)
 
         return ({
@@ -156,17 +178,17 @@ class Graph:
             'time': time
         })
 
-    # quita una ruta de la matriz de ady
     def updateAdjMatrix(self, arrayRoute):
+        ''' Se elimina una ruta de la matriz de adyacencia'''
 
         coors = []
 
         for coord in arrayRoute:
             coors.append(coord[1] + coord[3])
 
-        # Se actualiza la matriz adyacente de forma que aquellas aristas que hayan sido recorridas por Javier no puedan ser recorridas por Andreina
-        # el zip esta corrido en coors, coors[1:] proque se necesita es la interseccion entre 2 nodos consecutivos en el camino para act
-        # en la matriz
+        # Se actualiza la matriz adyacencia de forma que aquellas aristas que hayan sido recorridas por Javier no puedan 
+        # ser recorridas por Andreina el zip esta corrido en coors, coors[1:] porque se necesita la interseccion entre 2
+        # nodos consecutivos en el camino para actualizar en la matriz
         for x, y in zip(coors, coors[1:]):
 
             if int(x[0]) == 0:
@@ -194,14 +216,18 @@ class Graph:
                 coorY = 24
             else:
                 coorY = 30
+
             self.adjMatrix[coorX+int(x[1])][(coorY+int(y[1]))] = 999
 
     def updateMatrixTo(self, num):
+        ''' Actualiza todas las costos de la matriz de adyacencia sumandole un numero'''
+
         for i in range(0, 36):
             for j in range(0, 36):
                 if(self.adjMatrix[i][j] != 999):
                     self.adjMatrix[i][j] += num
-    # Borrar al final
+    
+    # TODO: Borrar al final
 
     def printGraph(self):
         for i in range(36):

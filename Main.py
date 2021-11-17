@@ -4,10 +4,9 @@ import time
 
 from Grafo import Graph
 
-# esto limpia la consola
-
 
 def clearConsole():
+    '''Funcion para limpiar la consola'''
     command = 'clear'
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
@@ -15,6 +14,7 @@ def clearConsole():
 
 
 def commonPath(javier, andreina):
+    ''' Busca las aristas en comun que recorren Javier y Andreina en su ruta '''
     commonPath = []
     pathJavier = str(javier).split(",")
     pathAndreina = str(andreina).split(",")
@@ -52,10 +52,19 @@ if __name__ == '__main__':
 
     # se calcula javier
     javier = g.dijkstra(5414.0, 5012.0)
+
+    print('ruta de javier', javier['route'])
+    print('tiempo de javier', javier['minutes'])
+    print('timming', javier['time'])
     # aqui se le suma 2 al grafo porque andreina es mas lenta, entonces esto suma 2 a todo el grafo
     g.updateMatrixTo(2)
     # calculo la ruta de andreina
     andreina = g.dijkstra(5213.0, 5012.0)
+
+    print('ruta de andreina', andreina['route'])
+    print('tiempo de andreina', andreina['minutes'])
+    print('timming', andreina['time'])
+    print()
 
     # esto es para saber con quien se esta usando el grafo
     # last es andreina porque es la ultima que se le hizo la busqueda
@@ -82,8 +91,13 @@ if __name__ == '__main__':
                 g.updateMatrixTo(-2)
                 last = 'javier'
             javier = g.dijkstra(5414.0, 5012.0)
+
+        # FIXME: la ruta comun nunca esta cambiando
         # se verifica de nuevo que no haya una ruta en comun
         commonRoute = commonPath(javier['route'], andreina['route'])
+
+        print(commonRoute)
+
 
     # esto es para saber el timmon no creo que sea necesario idk no lo borres aun comentalo
     if(javier['minutes'] > andreina['minutes']):
