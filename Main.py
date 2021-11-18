@@ -6,10 +6,10 @@ from Grafo import Graph
 from Menu import header, menu, gps, aboutUs, contact, credits, routes, aboutHeader, contactHeader
 
 
-# esto limpia la consola
 
 
 def clearConsole():
+    '''Funcion para limpiar la consola'''
     command = 'clear'
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
@@ -17,6 +17,8 @@ def clearConsole():
 
 
 def commonPath(javier, andreina):
+    ''' Busca las aristas en comun que recorren Javier y Andreina en su ruta '''
+    
     commonPath = []
     pathJavier = str(javier).split(",")
     pathAndreina = str(andreina).split(",")

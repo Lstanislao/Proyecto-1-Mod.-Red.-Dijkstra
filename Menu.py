@@ -59,8 +59,8 @@ def credits():
     print('     >-Rafael Matienzo->')
     print('\nIntegrantes:')
     print('     >-Oriana González->')
-    print('     >-Luis Stanislao->')
     print('     >-Guillermo Sosa->')
+    print('     >-Luis Stanislao->')
     print('\nGPS Cupido finalizado\n')
 
 def routes():
