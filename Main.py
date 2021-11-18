@@ -4,6 +4,7 @@ import time
 
 from Grafo import Graph
 from Menu import header, menu, gps, aboutUs, contact, credits, routes, aboutHeader, contactHeader
+from MostrarGrafo import ShowGraph
 
 
 
@@ -59,8 +60,116 @@ if __name__ == '__main__':
             optionGps = int(input("Ingrese su opción deseada: \n"))
 
             while optionGps != 0:
+                commonRoute = ['null']
                 if optionGps == 1:
+                    # FIXME: no muestra bien la ruta
+                    clearConsole()
+                    routes()
+                    print('Discoteca The Darkness: Carrera 14 con Calle 50')
+                    print()
+                    g.initMatrix()
+                    javier = g.dijkstra(5414.0, 5014.0)
 
+                    # luego se le quita esa ruta a andreina
+
+                    g.updateMatrixTo(2)
+
+                    andreina = g.dijkstra(5213.0, 5014.0)
+                    last = 'andreina'
+
+                    while(len(commonRoute) != 0):
+                        commonRoute = commonPath(javier['route'], andreina['route'])
+                        print(commonRoute)
+                        if(javier['minutes'] > andreina['minutes']):
+                            g.updateAdjMatrix(commonRoute)
+                            if(last == 'javier'):
+                                g.updateMatrixTo(-2)
+                                print('lol1')
+                                last = 'andreina'
+                            andreina = g.dijkstra(5213.0, 5014.0)
+                        else:
+                            g.updateAdjMatrix(commonRoute)
+                            if(last == 'andreina'):
+                                g.updateMatrixTo(-2)
+                                last = 'javier'
+                            javier = g.dijkstra(5414.0, 5014.0)
+
+                        commonRoute = commonPath(javier['route'], andreina['route'])
+
+                    if(javier['minutes'] > andreina['minutes']):
+                        dif = javier['minutes'] - andreina['minutes']
+                        for i in range(len(andreina['time'])):
+                            andreina['time'][i] += dif
+                    else:
+                        dif = andreina['minutes'] - javier['minutes']
+                        for i in range(len(javier['time'])):
+                            javier['time'][i] += dif
+
+                    print('\nRuta de Javier', javier['route'])
+                    print('\nTiempo de Javier', javier['minutes'])
+                    print('\nTimming', javier['time'])
+
+                    print('\n\nRuta de Andreina', andreina['route'])
+                    print('\nTiempo de Andreina', andreina['minutes'])
+                    print('\nTimming', andreina['time'])
+                    print('_______________________________________________________________________________')
+
+
+                elif optionGps == 2:
+
+                    clearConsole()
+                    routes()
+                    print('Bar La Pasión: Calle 54 con Carrera 11')
+                    print()
+                    g.initMatrix()
+                    javier = g.dijkstra(5414.0, 5411.0)
+
+                    g.updateMatrixTo(2)
+                    andreina = g.dijkstra(5213.0, 5411.0)
+                    last = 'andreina'
+
+                    while(len(commonRoute) != 0):
+                        commonRoute = commonPath(javier['route'], andreina['route'])
+                        print(commonRoute)
+                        if(javier['minutes'] > andreina['minutes']):
+                            g.updateAdjMatrix(commonRoute)
+                            if(last == 'javier'):
+                                g.updateMatrixTo(-2)
+                                last = 'andreina'
+                            andreina = g.dijkstra(5213.0, 5411.0)
+                        else:
+                            g.updateAdjMatrix(commonRoute)
+                            if(last == 'andreina'):
+                                g.updateMatrixTo(-2)
+                                last = 'javier'
+                            javier = g.dijkstra(5414.0, 5411.0)
+
+                        commonRoute = commonPath(javier['route'], andreina['route'])
+
+                    if(javier['minutes'] > andreina['minutes']):
+                        dif = javier['minutes'] - andreina['minutes']
+                        for i in range(len(andreina['time'])):
+                            andreina['time'][i] += dif
+                    else:
+                        dif = andreina['minutes'] - javier['minutes']
+                        for i in range(len(javier['time'])):
+                            javier['time'][i] += dif
+
+                    print('\nRuta de Javier', javier['route'])
+                    print('\nTiempo de Javier', javier['minutes'])
+                    print('\nTimming', javier['time'])
+
+                    print('\n\nRuta de Andreina', andreina['route'])
+                    print('\nTiempo de Andreina', andreina['minutes'])
+                    print('\nTimming', andreina['time'])
+                    print('_______________________________________________________________________________')
+
+
+
+                elif optionGps == 3:
+
+                    # FIXME: no muestra bien la ruta
+                    
                     # se calcula la ruta para javier primero
                     # a esto se le pasa por parametro el inicio y fin o sea calle 54 carrera 14
                     clearConsole()
@@ -81,7 +190,6 @@ if __name__ == '__main__':
                     last = 'andreina'
 
                     # mientras haya alguna ruta en comun
-                    commonRoute = ['null']
                     while(len(commonRoute) != 0):
                         # esto saca si hay alguna ruta en comun
                         commonRoute = commonPath(javier['route'], andreina['route'])
@@ -125,115 +233,16 @@ if __name__ == '__main__':
                     # si se quiere volver a saber otra ruta sin tener que volver a correr
                     # g.initMatrix()  resetea la matriz de adyacencia a la inicial para volver a calcular javier y andreina
 
-                elif optionGps == 2:
-
-                    clearConsole()
-                    routes()
-                    print('Discoteca The Darkness: Carrera 14 con Calle 50')
-                    print()
-                    g.initMatrix()
-                    javier = g.dijkstra(5414.0, 5014.0)
-
-                    # luego se le quita esa ruta a andreina
-
-                    g.updateMatrixTo(2)
-
-                    andreina = g.dijkstra(5213.0, 5014.0)
-                    commonRoute = ['null']
-                    last = 'andreina'
-                    while(len(commonRoute) != 0):
-                        commonRoute = commonPath(javier['route'], andreina['route'])
-                        print(commonRoute)
-                        if(javier['minutes'] > andreina['minutes']):
-                            g.updateAdjMatrix(commonRoute)
-                            if(last == 'javier'):
-                                g.updateMatrixTo(-2)
-                                print('lol1')
-                                last = 'andreina'
-                            andreina = g.dijkstra(5213.0, 5014.0)
-                        else:
-                            g.updateAdjMatrix(commonRoute)
-                            if(last == 'andreina'):
-                                g.updateMatrixTo(-2)
-                                last = 'javier'
-                            javier = g.dijkstra(5414.0, 5014.0)
-
-                        commonRoute = commonPath(javier['route'], andreina['route'])
-
-                    if(javier['minutes'] > andreina['minutes']):
-                        dif = javier['minutes'] - andreina['minutes']
-                        for i in range(len(andreina['time'])):
-                            andreina['time'][i] += dif
-                    else:
-                        dif = andreina['minutes'] - javier['minutes']
-                        for i in range(len(javier['time'])):
-                            javier['time'][i] += dif
-
-                    print('\nRuta de Javier', javier['route'])
-                    print('\nTiempo de Javier', javier['minutes'])
-                    print('\nTimming', javier['time'])
-
-                    print('\n\nRuta de Andreina', andreina['route'])
-                    print('\nTiempo de Andreina', andreina['minutes'])
-                    print('\nTimming', andreina['time'])
-                    print('_______________________________________________________________________________')
-
-
-                elif optionGps == 3:
-
-                    clearConsole()
-                    routes()
-                    print('Bar La Pasión: Calle 54 con Carrera 11')
-                    print()
-                    g.initMatrix()
-                    javier = g.dijkstra(5414.0, 5411.0)
-
-                    g.updateMatrixTo(2)
-                    andreina = g.dijkstra(5213.0, 5411.0)
-                    last = 'andreina'
-                    while(len(commonRoute) != 0):
-                        commonRoute = commonPath(javier['route'], andreina['route'])
-                        print(commonRoute)
-                        if(javier['minutes'] > andreina['minutes']):
-                            g.updateAdjMatrix(commonRoute)
-                            if(last == 'javier'):
-                                g.updateMatrixTo(-2)
-                                last = 'andreina'
-                            andreina = g.dijkstra(5213.0, 5411.0)
-                        else:
-                            g.updateAdjMatrix(commonRoute)
-                            if(last == 'andreina'):
-                                g.updateMatrixTo(-2)
-                                last = 'javier'
-                            javier = g.dijkstra(5414.0, 5411.0)
-
-                        commonRoute = commonPath(javier['route'], andreina['route'])
-
-                    if(javier['minutes'] > andreina['minutes']):
-                        dif = javier['minutes'] - andreina['minutes']
-                        for i in range(len(andreina['time'])):
-                            andreina['time'][i] += dif
-                    else:
-                        dif = andreina['minutes'] - javier['minutes']
-                        for i in range(len(javier['time'])):
-                            javier['time'][i] += dif
-
-                    print('\nRuta de Javier', javier['route'])
-                    print('\nTiempo de Javier', javier['minutes'])
-                    print('\nTimming', javier['time'])
-
-                    print('\n\nRuta de Andreina', andreina['route'])
-                    print('\nTiempo de Andreina', andreina['minutes'])
-                    print('\nTimming', andreina['time'])
-                    print('_______________________________________________________________________________')
-
-
                 else:
                     clearConsole()
                     print('Opción invalida\n')
                     header()
                     gps()
                     optionGps = int(input("Ingrese su opción deseada: \n"))
+                
+                # Se muestra el grafo con las rutas de Javier y Andreina
+                ShowGraph(javier['route'], andreina['route'])
+
                 gps()
                 optionGps = int(input("Ingrese su opción deseada: \n"))
                 clearConsole()
