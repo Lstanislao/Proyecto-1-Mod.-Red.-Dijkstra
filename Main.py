@@ -135,7 +135,6 @@ if __name__ == '__main__':
     last = 'andreina'
     while(len(commonRoute) != 0):
         commonRoute = commonPath(javier['route'], andreina['route'])
-        print(commonRoute)
         if(javier['minutes'] > andreina['minutes']):
             g.updateAdjMatrix(commonRoute)
             if(last == 'javier'):
