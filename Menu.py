@@ -52,6 +52,8 @@ def contact():
     print('Para: GPS Cupido\n')
     print(content)
     print('\n[1] Enviar\n')
+    print('[0] Volver a menú principal\n')
+
 
 def credits():
     print('\nProyecto 1 - Modelación de Sistemas en Redes')

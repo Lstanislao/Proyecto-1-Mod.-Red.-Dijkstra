@@ -11,8 +11,8 @@ class Graph:
         nodos no tendran una arista en comun'''
         for i in range(0, 36):
             for j in range(0, 36):
-                if(i != j):
-                    self.adjMatrix[i][j] = 999
+                # if(i != j):
+                self.adjMatrix[i][j] = 999
         self.initMatrix()
     # -----------------------------------------------------------
 
@@ -131,7 +131,8 @@ class Graph:
 
                     # Se examinan sus nodos adyacentes no visitados
                     for j in range(36):
-                        if(infoMatrix[j][0] in notVisited and self.adjMatrix[i][j] != 999):
+                        # if(infoMatrix[j][0] in notVisited and self.adjMatrix[i][j] != 999):
+                        if(self.adjMatrix[i][j] != 999):
                             # Si suma de tiempo del nodo inicio al nodo actual y tiempo 
                             # del nodo actual al nodo adyacente es menor que tiempo de 
                             # nodo inicio a nodo adyacente en la tabla
