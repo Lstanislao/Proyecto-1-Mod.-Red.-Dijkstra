@@ -1,12 +1,11 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def ShowGraph(ruta_javier, ruta_andreina):
+def ShowGraph(ruta_javier, ruta_andreina, title):
     # Se crea el grafo
     g = nx.Graph()
 
     # Se agregan los nodos en su posicion correspondiente
-    
     carrera = 15
 
     for i in range(6):
@@ -47,39 +46,60 @@ def ShowGraph(ruta_javier, ruta_andreina):
     # print(g.edges(data=True))
 
     pos = nx.get_node_attributes(g, 'pos')
-    edge_labels = nx.get_edge_attributes(g, 'weight')
-    # print(edge_labels)
-
+    edgeLabels = nx.get_edge_attributes(g, 'weight')
+    
     # javier = 5414
     # andreina = 5213
-    the_darkness = "5014"
-    la_pasion = "5411"
-    mi_rolita = "5012"
+    theDarkness = "5014"
+    laPasion = "5411"
+    miRolita = "5012"
 
     # Definiendo estilos para las aristas
-    nx.draw_networkx_edge_labels(g, pos, edge_labels, font_size=9)
-    nx.draw(g, pos, with_labels=True, node_size=750, width=2, font_size=10)
+    nx.draw_networkx_edge_labels(g, pos, edge_labels=edgeLabels, font_size=9)
+    nx.draw(g, pos, with_labels=True, node_size=750, width=2, font_size=10, node_color="#ffe5d9")
     
     # Definiendo estilos para lugares de encuentro
-    nx.draw_networkx_nodes(g,pos, nodelist=[the_darkness, la_pasion, mi_rolita], node_size=750, node_color="pink")
+    nx.draw_networkx_nodes(g,pos, nodelist=[theDarkness, laPasion, miRolita], node_size=750, node_color="#9d8189")
    
+    # TODO: HACER O BORRAR
     # SI SE QUIEREN DIFERENTES COLORES IDK
     # Definiendo estilos para nodo de Bar La Pasion
-    # nx.draw_networkx_nodes(g,pos, nodelist=[la_pasion], node_size=900, node_color="pink")
+    # nx.draw_networkx_nodes(g,pos, nodelist=[laPasion], node_size=900, node_color="pink")
     # # Definiendo estilos para nodo de Cerveceria Mi Rolita
-    # nx.draw_networkx_nodes(g,pos, nodelist=[mi_rolita], node_size=900, node_color="yellow")
+    # nx.draw_networkx_nodes(g,pos, nodelist=[miRolita], node_size=900, node_color="yellow")
    
-    # TODO: cambiar color de las aristas
+    # Se construye el array de nodos por los que pasa Javier
+    javierNodes = ruta_javier.split(" --> ")
+
+    # Se construye el array de aristas por las que pasa Javier
+    javierEdges = []
+
+    for edge in g.edges(nbunch=javierNodes):
+        if edge[0] in javierNodes and edge[1] in javierNodes:
+            javierEdges.append(edge)
+
     # Se modifica el color del camino de Javier
-    nx.draw_networkx_nodes(g,pos, nodelist=ruta_javier.split(" --> ")[:-1], node_size=750, node_color="green")
-    # Se modifica el color del camino de Andreina
-    nx.draw_networkx_nodes(g,pos, nodelist=ruta_andreina.split(" --> ")[:-1], node_size=750, node_color="orange")
-   
+    nx.draw_networkx_nodes(g,pos, nodelist=javierNodes[:-1], node_size=750, node_color="#d8e2dc")
+    nx.draw_networkx_edges(g,pos, edgelist=javierEdges,  edge_color="#d8e2dc", width=2)
     
-    plt.title('Ruta de costo mínimo')
+    # Se construye el array de nodos por los que pasa Andreina
+    andreinaNodes = ruta_andreina.split(" --> ")
+
+    # Se construye el array de aristas por las que pasa Andreina
+    andreinaEdges = []
+
+    for edge in g.edges(nbunch=andreinaNodes):
+        if edge[0] in andreinaNodes and edge[1] in andreinaNodes:
+            andreinaEdges.append(edge)
+
+    # Se modifica el color del camino de Andreina
+    nx.draw_networkx_nodes(g,pos, nodelist=andreinaNodes[:-1], node_size=750, node_color="#ffcad4")
+    nx.draw_networkx_edges(g,pos, edgelist=andreinaEdges,  edge_color="#ffcad4", width=2)
+
+    
+    plt.title(title)
     plt.show()
 
-# ShowGraph('5414 --> 5413 --> 5412 --> 5312 --> 5212 --> 5112 --> 5012', '5213 --> 5113 --> 5013 --> 5012')
 
 
   
