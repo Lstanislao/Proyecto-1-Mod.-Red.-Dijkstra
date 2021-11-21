@@ -231,10 +231,3 @@ class Graph:
                 if(self.adjMatrix[i][j] != 999):
                     self.adjMatrix[i][j] += num
                     
-    # TODO: Borrar al final
-
-    def printGraph(self):
-        for i in range(36):
-            for j in range(36):
-                print(self.adjMatrix[i][j], end=" ")
-            print()

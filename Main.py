@@ -158,7 +158,6 @@ if __name__ == '__main__':
                     # Se verifica de nuevo que no haya una ruta en comun
                     commonRoute = commonPath(javier['route'], andreina['route'])
 
-                # TODO: no se si queda o se va la parte de time
 
                 # Con las rutas ya listas, se ve quien debe salir antes y por cuanto tiempo
                 if(javier['minutes'] > andreina['minutes']):
