@@ -98,5 +98,8 @@ def ShowGraph(ruta_javier, ruta_andreina, title):
     nx.draw_networkx_edges(g, pos, edgelist=andreinaEdges,
                            edge_color="#ffcad4", width=2)
 
-    plt.title(title)
+    # Se agrega el titulo
+    plt.title(title, fontsize=11)
+
+    # Se muestra el grafo
     plt.show()

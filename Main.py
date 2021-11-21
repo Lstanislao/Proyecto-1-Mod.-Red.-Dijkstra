@@ -195,7 +195,7 @@ if __name__ == '__main__':
                 # si se quiere volver a saber otra ruta sin tener que volver a correr
                 # g.initMatrix()  resetea la matriz de adyacencia a la inicial para volver a calcular javier y andreina
 
-                # Se muestra el grafo con las rutas de Javier y Andreina
+                # Se muestra el grafo con las rutas de Javier y Andreina. Comentar linea si no se quiere graficar
                 # Tomar en cuenta que el tiempo entre los nodos mostrados son los de Javier, los Andreina son esos mas 2
                 ShowGraph(javier['route'], andreina['route'], 'Camino de costo mínimo a ' + destinyName)
 
@@ -237,8 +237,6 @@ if __name__ == '__main__':
                     print('Opción inválida\n')
                     optionContact = input("Ingrese su opción deseada: \n")
             
-            clearConsole()
-
         else:
             print('Opción inválida\n')
         header()
