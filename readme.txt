@@ -1,4 +1,4 @@
-Para correr el proyeto solo de dene ejecuar el archivo "Main.py" ,el resto son archivos axiliares que se importan en este
+Para correr el proyeto solo de debe ejecuar el archivo "Main.py" ,el resto son archivos auxiliares que se importan en este
 para la modulurización del proyecto. 
 
 Para la elaboración del proyecto se utilizaron las siguientes librerias, que no poseerlas instaladas debe realizar el
@@ -8,7 +8,7 @@ pip install correpondiente para ejecutar el proyecto:
 -Instalación, comando por consola: pip install numpy
 
 *Matplotlib: Para mostrar interfaz de gráfica en la que se muestra la cuadricula que representa el grafo
--Instalación, comando por consola: pip install numpy
+-Instalación, comando por consola: pip install matplotlib
 
 *Networkx:  permite dibujar el grafo en forma de cuadricula con sus respectivos datos
 -Instalación, comando por consola: pip install networkx[all]
