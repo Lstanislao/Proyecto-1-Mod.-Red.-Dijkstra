@@ -22,6 +22,3 @@ programa.
 - El proyecto se encuentra debidamente comentado indicando que realiza cada porción del código, 
 cualquier duda o problema con la intalación no dude en contactarnos profe.
 
-Oriana Gonzalez - 04149068326
-Guillemos Sosa - 04122842649
-Luis Stanislao - 04142000093
